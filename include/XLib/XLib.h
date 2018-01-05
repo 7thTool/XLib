@@ -98,7 +98,7 @@
 #include <functional>
 using namespace std;
 
-#include <XLibConf.h>
+#include "XLibConf.h"
 
 #ifdef WIN32
 
