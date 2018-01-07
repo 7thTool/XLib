@@ -16,17 +16,46 @@
 #ifndef _H_XLIB_H_
 #define _H_XLIB_H_
 
+#ifdef XLIB_CONF
+
+#include <XLibConf.h>
+
+#else
+
+#ifndef XLIB_DLL
+#define XLIB_DLL //默认编译成动态链接库
+#endif//XLIB_DLL
+
+//VCPKG包管理器
+#define USE_VCPKG	0
+//XSOCKET网络库
+#define USE_SOCKET	1
+//LOG4CXX日志
+#define USE_LOG4CXX	0
+#if USE_LOG4CXX
+#include<log4cxx/logger.h>
+#include<log4cxx/propertyconfigurator.h>
+
+#pragma comment(lib,"log4cxx.lib")
+#endif//
+//线程池
+#define USE_THREADPOOL 1
+//FILEEX
+#define USE_FILE_EX	0
+
+#endif//
+
 #ifdef XLIB_DLL
 #ifdef XLIB_EXPORTS
 #define XLIB_API __declspec(dllexport)
 #else
 #define XLIB_API __declspec(dllimport)
+#ifdef WIN32
+#pragma comment(lib, "XLib.lib")
+#endif//
 #endif//XLIB_EXPORTS
 #else
 #define	XLIB_API 
-#ifdef XLIB_EXPORTS
-#else
-#endif//
 #endif//XLIB_DLL
 
 #ifdef WIN32
@@ -94,33 +123,39 @@
 #include <functional>
 using namespace std;
 
-#ifdef XLIB_CONF
-#include <XLibConf.h>
-#else
-//VCPKG包管理器
-#define USE_VCPKG	0
-//XSOCKET网络库
-#define USE_SOCKET	1
-//LOG4CXX日志
-#define USE_LOG4CXX	0
-#if USE_LOG4CXX
-#include<log4cxx/logger.h>
-#include<log4cxx/propertyconfigurator.h>
-
-#pragma comment(lib,"log4cxx.lib")
-#endif//
-//线程池
-#define USE_THREADPOOL 1
-//FILEEX
-#define USE_FILE_EX	0
-
-#ifndef XLIB_EXPORTS
-#pragma comment(lib, "XLib.lib")
-#endif//XLIB_EXPORTS
-
-#endif//
-
 #ifdef WIN32
+
+#ifndef int8_t
+typedef __int8 int8_t;
+#endif//int8_t
+
+#ifndef int16_t
+typedef __int16 int16_t;
+#endif//int16_t
+
+#ifndef int32_t
+typedef __int32 int32_t;
+#endif//int32_t
+
+#ifndef int64_t
+typedef __int64 int64_t;
+#endif//int64_t
+
+#ifndef uint8_t
+typedef unsigned __int8 uint8_t;
+#endif//uint8_t
+
+#ifndef uint16_t
+typedef unsigned __int16 uint16_t;
+#endif//uint16_t
+
+#ifndef uint32_t
+typedef unsigned __int32 uint32_t;
+#endif//uint32_t
+
+#ifndef uint64_t
+typedef unsigned __int64 uint64_t;
+#endif//uint64_t
 
 #else
 
