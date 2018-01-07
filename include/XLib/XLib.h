@@ -29,10 +29,6 @@
 #endif//
 #endif//XLIB_DLL
 
-#ifndef XLIB_EXPORTS
-#pragma comment(lib, "XLib.lib")
-#endif//XLIB_EXPORTS
-
 #ifdef WIN32
 
 #ifndef WIN32_LEAN_AND_MEAN
@@ -98,7 +94,31 @@
 #include <functional>
 using namespace std;
 
-#include "XLibConf.h"
+#ifdef XLIB_CONF
+#include <XLibConf.h>
+#else
+//VCPKG包管理器
+#define USE_VCPKG	0
+//XSOCKET网络库
+#define USE_SOCKET	1
+//LOG4CXX日志
+#define USE_LOG4CXX	0
+#if USE_LOG4CXX
+#include<log4cxx/logger.h>
+#include<log4cxx/propertyconfigurator.h>
+
+#pragma comment(lib,"log4cxx.lib")
+#endif//
+//线程池
+#define USE_THREADPOOL 1
+//FILEEX
+#define USE_FILE_EX	0
+
+#ifndef XLIB_EXPORTS
+#pragma comment(lib, "XLib.lib")
+#endif//XLIB_EXPORTS
+
+#endif//
 
 #ifdef WIN32
 
