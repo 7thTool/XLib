@@ -125,6 +125,8 @@ using namespace std;
 
 #ifdef WIN32
 
+#ifdef RC_INVOKED
+
 #ifndef int8_t
 typedef __int8 int8_t;
 #endif//int8_t
@@ -156,6 +158,8 @@ typedef unsigned __int32 uint32_t;
 #ifndef uint64_t
 typedef unsigned __int64 uint64_t;
 #endif//uint64_t
+
+#endif//
 
 #else
 
