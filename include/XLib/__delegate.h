@@ -145,15 +145,15 @@ public:
 
     ReturnType invoke(TYPE_PARAM_LIST) const
     {
-		if(m_flag&CONST_OBJECT) {
-			if (m_flag == CONST_CALLBACK) {
+		if(m_flag&CONST_CALLBACK) {
+			if (m_flag == CONST_OBJECT) {
 				return (m_constobj->*(m_constcallback))(PARAM_LIST);
 			} else {
-				return (m_constobj->*(m_callback))(PARAM_LIST);
+				return (m_obj->*(m_callback))(PARAM_LIST);
 			}
 		} else {
-			if (m_flag == CONST_CALLBACK) {
-				return (m_obj->*(m_constcallback))(PARAM_LIST);
+			if (m_flag == CONST_OBJECT) {
+				return (m_constobj->*(m_constcallback))(PARAM_LIST);
 			} else {
 				return (m_obj->*(m_callback))(PARAM_LIST);
 			}
@@ -294,6 +294,7 @@ public:
 				delete ptr;
 				ptr = NULL;
 			}
+			++it;
         }
         m_ptrs.clear();
     }
@@ -366,9 +367,12 @@ public:
         callbacklist::const_iterator it = m_ptrs.begin();
         while (it!=m_ptrs.end())
         {
-			Base* ptr = *it;
-            Base* newptr = ptr->clone();
-			pClone->m_ptrs.push_back(newptr);
+			Base* ptr = (*it);
+			if (ptr) {
+				Base* newptr = ptr->clone();
+				pClone->m_ptrs.push_back(newptr);
+			}
+			++it;
         }
         return pClone;
     }
